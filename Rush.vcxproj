@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{0EC4098F-4C38-4C4E-802F-869C75B4BE5A}</ProjectGuid>
+    <RootNamespace>Rush</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>C:\allegro\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\allegro\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>allegro-4.4.2-md.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="ConfigManager.cpp" />
+    <ClCompile Include="entities\Bullet.cpp" />
+    <ClCompile Include="entities\Enemy.cpp" />
+    <ClCompile Include="entities\EnemyShip.cpp" />
+    <ClCompile Include="entities\Explosion.cpp" />
+    <ClCompile Include="entities\MineBomb.cpp" />
+    <ClCompile Include="entities\Player.cpp" />
+    <ClCompile Include="entities\PlayerShip.cpp" />
+    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="mappy\mappyal.c" />
+    <ClCompile Include="Rush.cpp" />
+    <ClCompile Include="screens\CreditsScreen.cpp" />
+    <ClCompile Include="screens\GameHelpScreen.cpp" />
+    <ClCompile Include="screens\GameIntroScreen.cpp" />
+    <ClCompile Include="screens\GameScreen.cpp" />
+    <ClCompile Include="screens\GFXSettingsMenu.cpp" />
+    <ClCompile Include="screens\MainMenu.cpp" />
+    <ClCompile Include="screens\SettingsMenu.cpp" />
+    <ClCompile Include="screens\SoundSettingsMenu.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="Utility.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ConfigManager.h" />
+    <ClInclude Include="constants.h" />
+    <ClInclude Include="entities\Bullet.h" />
+    <ClInclude Include="entities\Enemy.h" />
+    <ClInclude Include="entities\EnemyShip.h" />
+    <ClInclude Include="entities\Explosion.h" />
+    <ClInclude Include="entities\MineBomb.h" />
+    <ClInclude Include="entities\Player.h" />
+    <ClInclude Include="entities\PlayerShip.h" />
+    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="mappy\mappyal.h" />
+    <ClInclude Include="screens\CreditsScreen.h" />
+    <ClInclude Include="screens\GameHelpScreen.h" />
+    <ClInclude Include="screens\GameIntroScreen.h" />
+    <ClInclude Include="screens\GameScreen.h" />
+    <ClInclude Include="screens\GFXSettingsMenu.h" />
+    <ClInclude Include="screens\MainMenu.h" />
+    <ClInclude Include="screens\SettingsMenu.h" />
+    <ClInclude Include="screens\SoundSettingsMenu.h" />
+    <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="Sprite.h" />
+    <ClInclude Include="Utility.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".gitignore" />
+    <None Include="Rush.cfg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\sprites\adventurer-run.bmp" />
+    <Image Include="assets\sprites\skeleton-walk.bmp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
