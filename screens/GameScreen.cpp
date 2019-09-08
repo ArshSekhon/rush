@@ -14,7 +14,7 @@ GameScreen::GameScreen(GameState* gameState, SoundManager* soundManager)
 	this->tmpGameScreens[0] = create_bitmap(TEMP_SCREEN_W, TEMP_SCREEN_H);
 	this->tmpGameScreens[1] = create_bitmap(TEMP_SCREEN_W, TEMP_SCREEN_H);
 	//this->playerShip = new PlayerShip(&this->bullets, 100, this->soundManager);  
-	this->enemy = new Enemy(44, 66, (SCREEN_W) / 4, (int)(SCREEN_H * (15.0 / 29)),24);
+	this->enemy = new Enemy(66, 99, (SCREEN_W) , (int)(SCREEN_H * (15.0 / 29)),24);
 	  
 	//srand(time(NULL)); 
 	//this->mineReleaseDelay = std::rand() % (5000);
@@ -62,7 +62,7 @@ void GameScreen::displayResultsBannerAndHandleInput(BITMAP* buffer, FONT* textFo
 
 
 		Utility::textout_centre_scaled(buffer, textFont, SCREEN_W / 2, SCREEN_H * 0.43, 0.55, "SCORE", makecol(255, 255, 255), -1);
-		Utility::textout_centre_scaled(buffer, textFont, SCREEN_W / 2, SCREEN_H * 0.5, .7, std::to_string(this->gameState->currentScore).c_str(), makecol(255, 255, 255), -1);
+		Utility::textout_centre_scaled(buffer, textFont, SCREEN_W / 2, SCREEN_H * 0.5, .7, std::to_string((int)this->gameState->currentScore).c_str(), makecol(255, 255, 255), -1);
 
 
 		exitToMainMenuButton = Utility::textout_centre_scaled(buffer, textFont, SCREEN_W / 3, SCREEN_H * 0.75, .4, "EXIT TO MAIN MENU", exitToMainMenuButtonColor, -1);
@@ -78,7 +78,7 @@ void GameScreen::displayResultsBannerAndHandleInput(BITMAP* buffer, FONT* textFo
 
 
 		Utility::textout_centre_scaled(buffer, textFont, SCREEN_W / 2, SCREEN_H * 0.43, 0.65, "SCORE", makecol(255, 255, 255), -1);
-		Utility::textout_centre_scaled(buffer, textFont, SCREEN_W / 2, SCREEN_H * 0.5, .9, std::to_string(this->gameState->currentScore).c_str(), makecol(255, 255, 255), -1);
+		Utility::textout_centre_scaled(buffer, textFont, SCREEN_W / 2, SCREEN_H * 0.5, .9, std::to_string((int)this->gameState->currentScore).c_str(), makecol(255, 255, 255), -1);
 
 
 		exitToMainMenuButton = Utility::textout_centre_scaled(buffer, textFont, SCREEN_W / 3, SCREEN_H * 0.75, .4, "EXIT TO MAIN MENU", exitToMainMenuButtonColor, -1);
@@ -94,7 +94,7 @@ void GameScreen::displayResultsBannerAndHandleInput(BITMAP* buffer, FONT* textFo
 		Utility::textout_centre_scaled(buffer, textFont, SCREEN_W / 2, SCREEN_H * 0.23, 1, "RESULTS", COLOR_TEXT, -1);
 		Utility::textout_centre_scaled(buffer, textFont, SCREEN_W / 2, SCREEN_H * 0.43, 0.75, "SCORE", makecol(255,255,255), -1); 
 		 
-		Utility::textout_centre_scaled(buffer, textFont, SCREEN_W / 2, SCREEN_H * 0.5, 1, std::to_string(this->gameState->currentScore).c_str(), makecol(255, 255, 255), -1);
+		Utility::textout_centre_scaled(buffer, textFont, SCREEN_W / 2, SCREEN_H * 0.5, 1, std::to_string((int)this->gameState->currentScore).c_str(), makecol(255, 255, 255), -1);
 		 
 
 
@@ -156,16 +156,16 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, FONT* headingFont,
 		timeElasped = clock() - startTime;
 	}
 
-	if (key[KEY_RIGHT] && this->player->isAlive()) {
-		if(screenWrap_x_pending>10)
-			screenWrap_x_pending -= 10;
+	if ((true || key[KEY_RIGHT]) && this->player->isAlive()) {
+		if(screenWrap_x_pending> gameScrollSpeed)
+			screenWrap_x_pending -= gameScrollSpeed;
 		else{
-			xOffset += 10;
+			xOffset += gameScrollSpeed;
 			screenWrap_x_pending = 0;
 		}
-
+		this->gameState->currentScore += 0.5;
 		
-		this->player->set_x_on_map((this->player->get_x_on_map()+10)%(mapblockwidth * mapwidth));
+		this->player->set_x_on_map((this->player->get_x_on_map()+ gameScrollSpeed)%(mapblockwidth * mapwidth));
 	}
 
 	if (key[KEY_SPACE]) { 
@@ -173,6 +173,15 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, FONT* headingFont,
 			player->jump();
 	}
 
+
+	if (this->gameState->needPlayerReset) 
+	{
+		this->player = new Player(SCREEN_W / 10, SCREEN_H * (0.555), 128, 30 * 1.2, 37 * 1.2);
+		xOffset = 0;
+		screenWrap_x_pending = 0;
+		yOffset = 0;
+		this->gameState->needPlayerReset = 0;
+	}
 
 
 	if (xOffset < 0) xOffset = 0;
@@ -244,6 +253,13 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, FONT* headingFont,
 	Utility::textout_magnified(buffer, textFont, 20, 10, 1, "SCORE: ", makecol(255, 255, 255), -1);
 	Utility::textout_magnified(buffer, textFont, 100, 10, 1, std::to_string((int)this->gameState->currentScore).c_str(), makecol(255, 255, 255), -1);
 
+
+
+
+	if(!player->isAlive() && player->getY()> SCREEN_H)
+	{
+		displayResultsBannerAndHandleInput(buffer, headingFont);
+	}
 
 	//rectfill(buffer, 0, 0, SCREEN_W, SCREEN_H / 15, makecol(77, 196, 240)); 
 	

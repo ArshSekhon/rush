@@ -62,6 +62,8 @@ private:
 	int gameOverDelay = 1000;
 	int xOffset = 0, yOffset=0;
 
+	int gameScrollSpeed = 5;
+
 
 
 	BoundingBox restartGameButton;

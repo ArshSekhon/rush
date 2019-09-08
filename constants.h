@@ -75,7 +75,7 @@ struct GameState {
 	 
 
 	int health=100;
-	int currentScore=0;
+	float currentScore=0;
 
 	int bgMusicPlaying;
 	int pendingMouseClick;
