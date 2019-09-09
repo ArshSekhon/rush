@@ -63,6 +63,6 @@ public:
 
 	void jump();
 	void updatePos();
-
+	void kill();
 
 };

@@ -133,14 +133,14 @@ void Player::draw(BITMAP* dest) {
 	int y = (int)((this->yPos + this->h) * 960.0 / SCREEN_H);
 	int x2 = (int)(get_x_on_map() + 3.0 * w / 4.0) % (mapblockwidth * mapwidth);
 
-	textprintf(dest, font, 0, 100, makecol(255, 255, 255), "jumpHeight: %f jumpVelocity:%f xy1: %f %f xy2: %f %f y_block: %d", jumpHeight, jumpVelocity, get_x_on_map() - w / 2.0, (this->yPos) , get_x_on_map() + w / 2.0, (this->yPos), (y % mapblockheight ));
+	//textprintf(dest, font, 0, 100, makecol(255, 255, 255), "jumpHeight: %f jumpVelocity:%f xy1: %f %f xy2: %f %f y_block: %d", jumpHeight, jumpVelocity, get_x_on_map() - w / 2.0, (this->yPos) , get_x_on_map() + w / 2.0, (this->yPos), (y % mapblockheight ));
 
 
-	textprintf(dest, font, 100, 200, makecol(255, 255, 255), "x1: %f y1: %f x2: %f y2: %f xOnMap: %f", this->xPos-w/2.0, (this->yPos+this->h), this->xPos + w / 2.0, (this->yPos+this->h));
+	//textprintf(dest, font, 100, 200, makecol(255, 255, 255), "x1: %f y1: %f x2: %f y2: %f xOnMap: %f", this->xPos-w/2.0, (this->yPos+this->h), this->xPos + w / 2.0, (this->yPos+this->h));
 
 
-	if(isAlive())
-		textprintf(dest, font, 100, 250, makecol(255, 255, 255), "onFloor1: %d onFloor2: %d Mouse: %d", MapGetBlockInPixels(x1,y)->tl , MapGetBlockInPixels(x2, y)->tl);
+	//if(isAlive())
+		//textprintf(dest, font, 100, 250, makecol(255, 255, 255), "onFloor1: %d onFloor2: %d Mouse: %d", MapGetBlockInPixels(x1,y)->tl , MapGetBlockInPixels(x2, y)->tl);
 
 
 	putpixel(dest, get_x_on_map() - w / 2, (posY + h), makecol(255, 0, 0));
@@ -211,4 +211,13 @@ void Player::updatePos()
 			loop = false;
 
 		}
+}
+
+void Player::kill()
+{
+	this->alive = false;
+	currentAnimation = ANIMATION_DYING; 
+	jumping = false;
+	jumpVelocity = 0;
+	loop = false;
 }

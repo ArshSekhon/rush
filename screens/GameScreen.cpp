@@ -14,40 +14,13 @@ GameScreen::GameScreen(GameState* gameState, SoundManager* soundManager)
 	this->tmpGameScreens[0] = create_bitmap(TEMP_SCREEN_W, TEMP_SCREEN_H);
 	this->tmpGameScreens[1] = create_bitmap(TEMP_SCREEN_W, TEMP_SCREEN_H);
 	//this->playerShip = new PlayerShip(&this->bullets, 100, this->soundManager);  
-	this->enemy = new Enemy(66, 99, (SCREEN_W) , (int)(SCREEN_H * (15.0 / 29)),24);
-	  
-	//srand(time(NULL)); 
-	//this->mineReleaseDelay = std::rand() % (5000);
-
+	 
 }
 
 GameScreen::~GameScreen()
 {
 	this->player->~Player();
-}
-/*
-void GameScreen::displayHealthBarAndScore(BITMAP* buffer, FONT* customFont) {
-
-	
-	int labelsX = PLAY_REGION_W + SCREEN_W / 30;
-	int healthLabelY = 386 * SCALING_FACTOR_RELATIVE_TO_1280;
-	int healthBarY = healthLabelY + 50 * SCALING_FACTOR_RELATIVE_TO_1280;
-	int healthBarWidth = SCREEN_W / 5;
-	int healthBarHeight = 25 * SCALING_FACTOR_RELATIVE_TO_1280;
-
-
-	Utility::textout_magnified(buffer, customFont, labelsX, healthLabelY, 0.5*SCALING_FACTOR_RELATIVE_TO_1280, "HEALTH", makecol(11, 255, 255), -1);
-
-	rectfill(buffer, labelsX , healthBarY, labelsX + healthBarWidth, healthBarY + healthBarHeight, makecol(0, 0, 0));
-	if(this->gameState->health != 0)
-		rectfill(buffer, labelsX, healthBarY, labelsX + (healthBarWidth*((1.0*this->gameState->health)/100)), healthBarY + healthBarHeight, makecol(0, 255, 0)); 
-
-	Utility::textout_magnified(buffer, customFont, labelsX, 486 * SCALING_FACTOR_RELATIVE_TO_1280, 0.5 * SCALING_FACTOR_RELATIVE_TO_1280, "YOUR SCORE", makecol(11, 255, 255), -1);
-
-	Utility::textout_magnified(buffer, font, labelsX, 530 * SCALING_FACTOR_RELATIVE_TO_1280, 2 * SCALING_FACTOR_RELATIVE_TO_1280, std::to_string(this->gameState->currentScore).c_str(), makecol(255, 255, 255), -1);
-
-
-}*/
+} 
 
 void GameScreen::displayResultsBannerAndHandleInput(BITMAP* buffer, FONT* textFont)
 {
@@ -181,6 +154,7 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, FONT* headingFont,
 		screenWrap_x_pending = 0;
 		yOffset = 0;
 		this->gameState->needPlayerReset = 0;
+		this->enemies.clear();
 	}
 
 
@@ -233,14 +207,52 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, FONT* headingFont,
 	blockdata = MapGetBlockInPixels(this->player->get_x_on_map(),SCREEN_H*9/15);
 
 
-	textprintf(buffer, font, 20, 80, makecol(255,255,255), "xOffset: %d scrn_wrap x: %d tile: %d", xOffset, screenWrap_x_pending,(int)blockdata->tl);
+	//textprintf(buffer, font, 20, 80, makecol(255,255,255), "xOffset: %d scrn_wrap x: %d tile: %d enemiesAlive: %d", xOffset, screenWrap_x_pending,(int)blockdata->tl, enemies.size());
 		
 
-	textprintf(buffer, font, 20, 40, makecol(255, 255, 255), "x: %d  y: %d",  (int)(mouse_x/(64*SCALING_FACTOR_RELATIVE_TO_1280)), (int)(mouse_y / (64 * SCALING_FACTOR_RELATIVE_TO_1280)));
-	textprintf(buffer, font, 20, 60, makecol(255, 255, 255), "x: %d  y: %d", (int)(mouse_x), (int)(mouse_y));
+	//textprintf(buffer, font, 20, 40, makecol(255, 255, 255), "x: %d  y: %d",  (int)(mouse_x/(64*SCALING_FACTOR_RELATIVE_TO_1280)), (int)(mouse_y / (64 * SCALING_FACTOR_RELATIVE_TO_1280)));
+	//textprintf(buffer, font, 20, 60, makecol(255, 255, 255), "x: %d  y: %d", (int)(mouse_x), (int)(mouse_y));
 
 	 
-	enemy->renderEnemy(buffer);
+
+
+
+
+
+	//render enemies and check for any hits
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		enemies[i]->renderEnemy(buffer); 
+
+		Sprite* enemySprite = enemies[i]->getSprite(); 
+
+		if (player->collided(buffer, player->getH() / 6, player->getW() / 6, enemySprite, enemySprite->getH() / 6, enemySprite->getW() / 7))
+		{
+			player->kill();
+		}
+
+
+
+		if (enemySprite->getX() + enemySprite->getH() < 0) {  
+			enemies[i]->~Enemy();
+			enemies.erase(enemies.begin() + i--);
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	this->player->draw(buffer);
 
@@ -250,8 +262,8 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, FONT* headingFont,
 
 
 
-	Utility::textout_magnified(buffer, textFont, 20, 10, 1, "SCORE: ", makecol(255, 255, 255), -1);
-	Utility::textout_magnified(buffer, textFont, 100, 10, 1, std::to_string((int)this->gameState->currentScore).c_str(), makecol(255, 255, 255), -1);
+	Utility::textout_magnified(buffer, headingFont, 30, 10,0.5, "SCORE: ", makecol(0, 0, 0), -1);
+	Utility::textout_magnified(buffer, headingFont, 120, 10, 0.5, std::to_string((int)this->gameState->currentScore).c_str(), makecol(0, 0, 0), -1);
 
 
 
@@ -261,11 +273,13 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, FONT* headingFont,
 		displayResultsBannerAndHandleInput(buffer, headingFont);
 	}
 
+
+	this->triggerReleases();
 	//rectfill(buffer, 0, 0, SCREEN_W, SCREEN_H / 15, makecol(77, 196, 240)); 
 	
 	//rest(100);
 }
-
+ 
 /*
 void GameScreen::checkHits(BITMAP* buffer)
 {
@@ -274,6 +288,7 @@ void GameScreen::checkHits(BITMAP* buffer)
 
 
 }
+	*/
 
 void GameScreen::triggerReleases()
 {	 
@@ -284,12 +299,11 @@ void GameScreen::triggerReleases()
 	if (clock() - lastEnemyReleaseTime > enemyReleaseDelay) {
 
 		int shipType = (std::rand() % (5)<2) ? ENEMY_SHIP_SMALL : ENEMY_SHIP_BIG;
-		this->enemyShips.push_back(new EnemyShip(shipType, &this->bullets, (std::rand() % ((int)(PLAY_REGION_W - 200 * SCALING_FACTOR_RELATIVE_TO_1280))), -55 * SCALING_FACTOR_RELATIVE_TO_1280, (shipType == ENEMY_SHIP_SMALL)?0.66:0.33));
-		this->enemyReleaseDelay = std::rand() % (5000) + 2000;
+		this->enemies.push_back(new Enemy(66 * SCALING_FACTOR_RELATIVE_TO_1280, 99 * SCALING_FACTOR_RELATIVE_TO_1280, (SCREEN_W*1.3), ENEMY_SPAWN_HEIGHT, 24));
+		this->enemyReleaseDelay = std::rand() % (2000) + 1000;
 
 		lastEnemyReleaseTime = clock(); 
 	}
 
 	
-
-	*/
+}

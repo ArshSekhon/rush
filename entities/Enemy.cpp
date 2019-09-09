@@ -29,3 +29,8 @@ void Enemy::renderEnemy(BITMAP* buffer)
 	this->enemySprite->draw(buffer);
 	this->enemySprite->move(SPRITE_MOVE_LEFT);
 }
+
+Sprite* Enemy::getSprite()
+{
+	return enemySprite;
+}

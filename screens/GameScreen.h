@@ -20,7 +20,8 @@
 #define OPTION_COLOR  makecol(76,46,16) 
 #define OPTION_COLOR_HOVERED makecol(247, 236, 213)
 #define TEMP_SCREEN_W 1280
-#define TEMP_SCREEN_H 960
+#define TEMP_SCREEN_H 960 
+#define ENEMY_SPAWN_HEIGHT (int)(SCREEN_H * (15.0 / 29))
 
 class GameScreen
 {
@@ -31,28 +32,19 @@ private:
 	BITMAP* bannerBitmap;
 	void displayHealthBarAndScore(BITMAP* buffer, FONT* headingFont);
 	 
-	Player* player;
-	Enemy* enemy;
+	Player* player; 
 
 	BITMAP* tmpGameScreens[2];
 	int currentScreen=0; 
 	int screenWrap_x_pending = 0;
-	int playerPos = 0;
+	int playerPos = 0; 
 
-	std::vector<Bullet*> bullets ;
-	std::vector<Explosion*> explosions;
-	std::vector<MineBomb*> mineBombs; 
-	std::vector<EnemyShip*> enemyShips;
-
-	void checkHits(BITMAP* buffer);
-	int numFrames; 
-	int bulletDamage = 10;
-	int mineBombDamage = 30;
+	std::vector<Enemy*> enemies;
+	 
+	int numFrames;  
 	void displayResultsBannerAndHandleInput(BITMAP* buffer, FONT* textFont);
 	unsigned long timeElasped = 0, startTime = 0;
-	
-	unsigned long lastmineReleaseTime = 0;
-	int mineReleaseDelay = 0;
+	 
 
 	unsigned long lastEnemyReleaseTime = 0;
 	int enemyReleaseDelay = 0;
@@ -70,7 +62,7 @@ private:
 	BoundingBox exitToMainMenuButton;
 
 	int exitToMainMenuButtonColor, restartGameButtonColor;
-	SoundManager* soundManager;
+	SoundManager* soundManager; 
 
 public:
 	GameScreen(GameState* gameState, SoundManager* soundManager);

@@ -16,5 +16,6 @@ public:
 
 	Enemy(int w, int h, int posX, int posY, int fps);
 	void renderEnemy(BITMAP* destination);
+	Sprite* getSprite();
 	~Enemy();
 };
