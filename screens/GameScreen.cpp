@@ -154,6 +154,7 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, FONT* headingFont,
 		screenWrap_x_pending = 0;
 		yOffset = 0;
 		this->gameState->needPlayerReset = 0;
+		this->gameState->currentScore = 0;
 		this->enemies.clear();
 	}
 
@@ -274,7 +275,7 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, FONT* headingFont,
 	}
 
 
-	this->triggerReleases();
+	//this->triggerReleases();
 	//rectfill(buffer, 0, 0, SCREEN_W, SCREEN_H / 15, makecol(77, 196, 240)); 
 	
 	//rest(100);
