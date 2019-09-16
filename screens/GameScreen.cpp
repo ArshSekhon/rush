@@ -275,7 +275,7 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, FONT* headingFont,
 	}
 
 
-	//this->triggerReleases();
+	this->triggerReleases();
 	//rectfill(buffer, 0, 0, SCREEN_W, SCREEN_H / 15, makecol(77, 196, 240)); 
 	
 	//rest(100);
@@ -298,10 +298,9 @@ void GameScreen::triggerReleases()
 
 	//release enemy
 	if (clock() - lastEnemyReleaseTime > enemyReleaseDelay) {
-
-		int shipType = (std::rand() % (5)<2) ? ENEMY_SHIP_SMALL : ENEMY_SHIP_BIG;
+		 
 		this->enemies.push_back(new Enemy(66 * SCALING_FACTOR_RELATIVE_TO_1280, 99 * SCALING_FACTOR_RELATIVE_TO_1280, (SCREEN_W*1.3), ENEMY_SPAWN_HEIGHT, 24));
-		this->enemyReleaseDelay = std::rand() % (2000) + 1000;
+		this->enemyReleaseDelay = std::rand() % (2000) + 2000;
 
 		lastEnemyReleaseTime = clock(); 
 	}
