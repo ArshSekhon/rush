@@ -5,7 +5,7 @@
 //SOUND EFFECTS
 #define SOUND_CLICK 0
 #define SOUND_LASER_SHOOT 1
-#define SOUND_EXPLOSION 2
+#define SOUND_BUZZER 2
 #define SOUND_BOING 3
 
 /**
@@ -16,9 +16,8 @@ class SoundManager
 {
 private:
 	MIDI* bgMusic;
-	SAMPLE* laserSound;
-	SAMPLE* clickSound;
-	SAMPLE* explosion;
+	SAMPLE* buzzer;
+	SAMPLE* clickSound; 
 	SAMPLE* boingSound;
 	GameState* gameState;
 

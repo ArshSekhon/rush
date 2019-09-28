@@ -4,7 +4,7 @@
 #define PLAYER_H 37
 
 
-Player::Player(int initPosX, int initPosY, int initXonMap, int w, int h) : Sprite(load_bitmap("assets/sprites/adventurer-run.bmp",NULL),
+Player::Player(SoundManager* soundManager, int initPosX, int initPosY, int initXonMap, int w, int h) : Sprite(load_bitmap("assets/sprites/adventurer-run.bmp",NULL),
 	w * SCALING_FACTOR_RELATIVE_TO_640, h * SCALING_FACTOR_RELATIVE_TO_640,
 	3, 5, 15,
 	12, 0, 0,
@@ -12,7 +12,7 @@ Player::Player(int initPosX, int initPosY, int initXonMap, int w, int h) : Sprit
 	initPosX - w/2, initPosY - h, 1
 	)
 {
- 
+	this->soundManager = soundManager;
 	this->posX = initPosX;
 	this->posY = initPosY;
 	this->xOnMap = initXonMap;
@@ -202,13 +202,9 @@ void Player::updatePos()
 
 		if (isAlive() && (MapGetBlock(((x2+x1)/2) / mapblockwidth, y_mid / mapblockheight)->tl))
 		{
-			alive = 0;
-			loop = false;
-			currentAnimation = ANIMATION_DYING;
+			kill();
 
-			jumping = false;
-			jumpVelocity = 0;
-			loop = false;
+			this->soundManager->playSound(SOUND_BUZZER, 1000);
 
 		}
 }

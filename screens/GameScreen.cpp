@@ -9,7 +9,7 @@ GameScreen::GameScreen(GameState* gameState, SoundManager* soundManager)
 
 	MapLoad((char*)"assets/map1.FMP");
 	//IMPORTANT player should be created only after mapload
-	this->player = new Player(SCREEN_W/10, SCREEN_H * (0.555), 128, 30*1.2, 37*1.2 );
+	this->player = new Player(this->soundManager, SCREEN_W/10, SCREEN_H * (0.555), 128, 30*0.95, 37*0.95 );
 	this->bannerBitmap = load_bitmap("assets/ui-elem/banner.bmp", NULL);
 	this->tmpGameScreens[0] = create_bitmap(TEMP_SCREEN_W, TEMP_SCREEN_H);
 	this->tmpGameScreens[1] = create_bitmap(TEMP_SCREEN_W, TEMP_SCREEN_H);
@@ -142,14 +142,18 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, FONT* headingFont,
 	}
 
 	if (key[KEY_SPACE]) { 
-		if (!player->isJumping())
+		if (!player->isJumping()) {
+
 			player->jump();
+			soundManager->playSound(SOUND_BOING, 1000);
+		}
+
 	}
 
 
 	if (this->gameState->needPlayerReset) 
 	{
-		this->player = new Player(SCREEN_W / 10, SCREEN_H * (0.555), 128, 30 * 1.2, 37 * 1.2);
+		this->player = new Player(this->soundManager, SCREEN_W / 10, SCREEN_H * (0.555), 128, 30 * .95, 37 * .95);
 		xOffset = 0;
 		screenWrap_x_pending = 0;
 		yOffset = 0;
@@ -227,9 +231,10 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, FONT* headingFont,
 
 		Sprite* enemySprite = enemies[i]->getSprite(); 
 
-		if (player->collided(buffer, player->getH() / 6, player->getW() / 6, enemySprite, enemySprite->getH() / 6, enemySprite->getW() / 7))
+		if (player->collided(buffer, player->getH() / 5, player->getW() / 6, enemySprite, enemySprite->getW() / 7, enemySprite->getH() / 4))
 		{
 			player->kill();
+			soundManager->playSound(SOUND_BUZZER, 1000);
 		}
 
 
@@ -298,8 +303,8 @@ void GameScreen::triggerReleases()
 
 	//release enemy
 	if (clock() - lastEnemyReleaseTime > enemyReleaseDelay) {
-		 
-		this->enemies.push_back(new Enemy(66 * SCALING_FACTOR_RELATIVE_TO_1280, 99 * SCALING_FACTOR_RELATIVE_TO_1280, (SCREEN_W*1.3), ENEMY_SPAWN_HEIGHT, 24));
+		  
+		this->enemies.push_back(new Enemy((SCREEN_W * 1.3), ENEMY_SPAWN_HEIGHT, 24));
 		this->enemyReleaseDelay = std::rand() % (2000) + 2000;
 
 		lastEnemyReleaseTime = clock(); 

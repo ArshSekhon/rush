@@ -34,7 +34,7 @@ private:
 
 public:
 
-	Player(int initPosX, int initPosY, int initXonMap, int w, int h);
+	Player(SoundManager* soundManager, int initPosX, int initPosY, int initXonMap, int w, int h);
 	~Player();
 	
 	bool isAlive();
