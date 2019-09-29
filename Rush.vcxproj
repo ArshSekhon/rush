@@ -71,13 +71,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ConfigManager.cpp" />
-    <ClCompile Include="entities\Bullet.cpp" />
     <ClCompile Include="entities\Enemy.cpp" />
-    <ClCompile Include="entities\EnemyShip.cpp" />
-    <ClCompile Include="entities\Explosion.cpp" />
-    <ClCompile Include="entities\MineBomb.cpp" />
     <ClCompile Include="entities\Player.cpp" />
-    <ClCompile Include="entities\PlayerShip.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="mappy\mappyal.c" />
     <ClCompile Include="Rush.cpp" />
@@ -96,13 +91,8 @@
   <ItemGroup>
     <ClInclude Include="ConfigManager.h" />
     <ClInclude Include="constants.h" />
-    <ClInclude Include="entities\Bullet.h" />
     <ClInclude Include="entities\Enemy.h" />
-    <ClInclude Include="entities\EnemyShip.h" />
-    <ClInclude Include="entities\Explosion.h" />
-    <ClInclude Include="entities\MineBomb.h" />
     <ClInclude Include="entities\Player.h" />
-    <ClInclude Include="entities\PlayerShip.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="mappy\mappyal.h" />
     <ClInclude Include="screens\CreditsScreen.h" />

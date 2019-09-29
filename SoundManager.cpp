@@ -35,7 +35,7 @@ void SoundManager::playSound(int sfxId, int freq) {
 	case SOUND_CLICK:
 		play_sample(clickSound, gameState->sound_volume * 12, 128, freq, 0);
 		break;
-	case SOUND_BOING:
+	case SOUND_JUMP:
 		play_sample(boingSound, gameState->sound_volume * 25.5, 128, freq, 0);
 		break; 
 	case SOUND_BUZZER:

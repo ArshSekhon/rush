@@ -24,9 +24,11 @@ int main(void) {
 	gs.exitGame = 0;
 
 	GameManager gameManager(&gs);
-
+	// initialization
 	gameManager.init();
+	// game loop
 	gameManager.runGameLoop();
+	// clean up
 	gameManager.exit();
 
 

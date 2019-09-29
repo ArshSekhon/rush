@@ -11,9 +11,9 @@ GameScreen::GameScreen(GameState* gameState, SoundManager* soundManager)
 	//IMPORTANT player should be created only after mapload
 	this->player = new Player(this->soundManager, SCREEN_W/10, SCREEN_H * (0.555), 128, 30*0.95, 37*0.95 );
 	this->bannerBitmap = load_bitmap("assets/ui-elem/banner.bmp", NULL);
+	//create two virtual screens for infinite scrolling
 	this->tmpGameScreens[0] = create_bitmap(TEMP_SCREEN_W, TEMP_SCREEN_H);
-	this->tmpGameScreens[1] = create_bitmap(TEMP_SCREEN_W, TEMP_SCREEN_H);
-	//this->playerShip = new PlayerShip(&this->bullets, 100, this->soundManager);  
+	this->tmpGameScreens[1] = create_bitmap(TEMP_SCREEN_W, TEMP_SCREEN_H); 
 	 
 }
 
@@ -122,6 +122,7 @@ void GameScreen::displayResultsBannerAndHandleInput(BITMAP* buffer, FONT* textFo
 }
 
 void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, FONT* headingFont, FONT* textFont) {
+	// calculates how much time has passed in the game
 	if (this->startTime == 0) {
 		startTime = clock();
 	}
@@ -129,7 +130,8 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, FONT* headingFont,
 		timeElasped = clock() - startTime;
 	}
 
-	if ((true || key[KEY_RIGHT]) && this->player->isAlive()) {
+	// update the world scrolling related variables.
+	if (this->player->isAlive()) {
 		if(screenWrap_x_pending> gameScrollSpeed)
 			screenWrap_x_pending -= gameScrollSpeed;
 		else{
@@ -140,17 +142,16 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, FONT* headingFont,
 		
 		this->player->set_x_on_map((this->player->get_x_on_map()+ gameScrollSpeed)%(mapblockwidth * mapwidth));
 	}
-
+	// if space is pressed make the player jump
 	if (key[KEY_SPACE]) { 
-		if (!player->isJumping()) {
-
+		if (!player->isJumping()) { 
 			player->jump();
-			soundManager->playSound(SOUND_BOING, 1000);
+			soundManager->playSound(SOUND_JUMP, 1000);
 		}
 
 	}
 
-
+	// reset the game if required due to restart 
 	if (this->gameState->needPlayerReset) 
 	{
 		this->player = new Player(this->soundManager, SCREEN_W / 10, SCREEN_H * (0.555), 128, 30 * .95, 37 * .95);
@@ -162,7 +163,7 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, FONT* headingFont,
 		this->enemies.clear();
 	}
 
-
+	// calculate the offsets for the scrolling. These offset values are used when wrapping around the game world to create infinite scroll
 	if (xOffset < 0) xOffset = 0;
 	if (xOffset > (mapwidth * mapblockwidth - 1280)) {
 		//xOffset = mapwidth * mapblockwidth - 1280;
@@ -176,15 +177,16 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, FONT* headingFont,
 		yOffset = mapheight * mapblockheight - 960;
 
 
-
+	// draw parts of worlds on both the virtual game screens for infinite scrolling
 	MapDrawBG(tmpGameScreens[currentScreen], xOffset, yOffset, 0, 0, TEMP_SCREEN_W - 1, TEMP_SCREEN_H - 1);
 	MapDrawFG(tmpGameScreens[currentScreen], xOffset, yOffset, 0, 0, TEMP_SCREEN_W - 1, TEMP_SCREEN_H - 1, 0);
-	 
-	//blit(tmpGameScreen, buffer, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+
+	// if end of the world has not reached only blit current screen to the buffer  
 	if (screenWrap_x_pending<=0) {
 
 		stretch_blit(tmpGameScreens[currentScreen], buffer, 0, 0, 1280, 960, 0, 0, SCREEN_W, SCREEN_H);
 	}
+	// if the end of the world has reached render parts of both virtual screens to ensure smooth infinite scroll
 	else {
 		
 		
@@ -208,22 +210,7 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, FONT* headingFont,
 
 	}
 
-	BLKSTR* blockdata;
-	blockdata = MapGetBlockInPixels(this->player->get_x_on_map(),SCREEN_H*9/15);
-
-
-	//textprintf(buffer, font, 20, 80, makecol(255,255,255), "xOffset: %d scrn_wrap x: %d tile: %d enemiesAlive: %d", xOffset, screenWrap_x_pending,(int)blockdata->tl, enemies.size());
-		
-
-	//textprintf(buffer, font, 20, 40, makecol(255, 255, 255), "x: %d  y: %d",  (int)(mouse_x/(64*SCALING_FACTOR_RELATIVE_TO_1280)), (int)(mouse_y / (64 * SCALING_FACTOR_RELATIVE_TO_1280)));
-	//textprintf(buffer, font, 20, 60, makecol(255, 255, 255), "x: %d  y: %d", (int)(mouse_x), (int)(mouse_y));
-
-	 
-
-
-
-
-
+ 
 	//render enemies and check for any hits
 	for (int i = 0; i < enemies.size(); i++)
 	{
@@ -236,38 +223,26 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, FONT* headingFont,
 			player->kill();
 			soundManager->playSound(SOUND_BUZZER, 1000);
 		}
-
-
-
+ 
 		if (enemySprite->getX() + enemySprite->getH() < 0) {  
 			enemies[i]->~Enemy();
 			enemies.erase(enemies.begin() + i--);
 		}
 	}
 
+ 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+	// render the player
 	this->player->draw(buffer);
 
+	// open game help on Ctrl+H
 	if ((key[KEY_LCONTROL] || key[KEY_RCONTROL]) && key[KEY_H]) {
 		gameState->gameScreen = GAME_SCREEN_HELP;
 	} 
 
 
-
+	// display score
 	Utility::textout_magnified(buffer, headingFont, 30, 10,0.5, "SCORE: ", makecol(0, 0, 0), -1);
 	Utility::textout_magnified(buffer, headingFont, 120, 10, 0.5, std::to_string((int)this->gameState->currentScore).c_str(), makecol(0, 0, 0), -1);
 
@@ -280,28 +255,15 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, FONT* headingFont,
 	}
 
 
-	this->triggerReleases();
-	//rectfill(buffer, 0, 0, SCREEN_W, SCREEN_H / 15, makecol(77, 196, 240)); 
+	this->triggerReleases(); 
 	
 	//rest(100);
 }
- 
-/*
-void GameScreen::checkHits(BITMAP* buffer)
-{
-	Sprite* mainSprite;
-	Sprite* otherSprite;
-
-
-}
-	*/
+  
 
 void GameScreen::triggerReleases()
 {	 
-
-
-
-	//release enemy
+	//release enemy depending on the randomly chosen release time
 	if (clock() - lastEnemyReleaseTime > enemyReleaseDelay) {
 		  
 		this->enemies.push_back(new Enemy((SCREEN_W * 1.3), ENEMY_SPAWN_HEIGHT, 24));

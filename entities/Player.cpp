@@ -12,6 +12,7 @@ Player::Player(SoundManager* soundManager, int initPosX, int initPosY, int initX
 	initPosX - w/2, initPosY - h, 1
 	)
 {
+	// initialize variable
 	this->soundManager = soundManager;
 	this->posX = initPosX;
 	this->posY = initPosY;
@@ -39,29 +40,29 @@ Player::~Player()
 
 bool Player::isAlive()
 {
-	return this->alive;
+	return this->currently_alive;
 }
-void Player::isAlive(bool alive)
+void Player::alive(bool currently_alive)
 {
-	this->alive = alive;
+	this->currently_alive = currently_alive;
 }
 
 bool Player::isJumping()
 {
-	return this->jumping;
+	return this->currently_jumping;
 }
-void Player::isJumping(bool jumping)
+void Player::jumping(bool currently_jumping)
 {
-	this->jumping = jumping;
+	this->currently_jumping = currently_jumping;
 }
 
 bool Player::isRunning()
 {
-	return running;
+	return currently_running;
 }
-void Player::isRunning(bool running)
+void Player::running(bool currently_running)
 {
-	this->running = running;
+	this->currently_running = currently_running;
 }
 
 int Player::getPosX()
@@ -94,21 +95,10 @@ void Player::set_x_on_map(int x)
 	this->xOnMap=x;
 }
 
-void Player::render(BITMAP* buffer)
-{ 
-	int playerHeight = PLAYER_H * SCALING_FACTOR_RELATIVE_TO_1280;
-	int playerWidth = PLAYER_W * SCALING_FACTOR_RELATIVE_TO_1280;
-
-
-	int playerX = posX - playerHeight / 2;
-	int playerY = posY - playerHeight;
-
-	textprintf(buffer, font, 350, 20, makecol(255, 255, 255), "x: %d y:%d h:%d w:%d map on x: %d", playerX, playerY, playerHeight, playerWidth, xOnMap);
-	//rectfill(buffer, playerX, playerY, playerX+playerWidth, playerY+playerHeight, makecol(0,0,0));
-}
-
+ 
 
 void Player::updateAnimation() {
+	// change animation frame depending on the FPS
 	if (clock() - lastFrameSwitchTime > 1000 / this->fps) {
 		lastFrameSwitchTime = clock();
 		currentFrame++;
@@ -123,6 +113,7 @@ void Player::updateAnimation() {
 	}
 }
 void Player::draw(BITMAP* dest) {
+
 	updatePos();
 	drawframe(dest, currentFrame);
 	updateAnimation();
@@ -132,25 +123,13 @@ void Player::draw(BITMAP* dest) {
 	int x1 = (int)(get_x_on_map() + w / 4.0) % (mapblockwidth * mapwidth);
 	int y = (int)((this->yPos + this->h) * 960.0 / SCREEN_H);
 	int x2 = (int)(get_x_on_map() + 3.0 * w / 4.0) % (mapblockwidth * mapwidth);
-
-	//textprintf(dest, font, 0, 100, makecol(255, 255, 255), "jumpHeight: %f jumpVelocity:%f xy1: %f %f xy2: %f %f y_block: %d", jumpHeight, jumpVelocity, get_x_on_map() - w / 2.0, (this->yPos) , get_x_on_map() + w / 2.0, (this->yPos), (y % mapblockheight ));
-
-
-	//textprintf(dest, font, 100, 200, makecol(255, 255, 255), "x1: %f y1: %f x2: %f y2: %f xOnMap: %f", this->xPos-w/2.0, (this->yPos+this->h), this->xPos + w / 2.0, (this->yPos+this->h));
-
-
-	//if(isAlive())
-		//textprintf(dest, font, 100, 250, makecol(255, 255, 255), "onFloor1: %d onFloor2: %d Mouse: %d", MapGetBlockInPixels(x1,y)->tl , MapGetBlockInPixels(x2, y)->tl);
-
-
-	putpixel(dest, get_x_on_map() - w / 2, (posY + h), makecol(255, 0, 0));
-	putpixel(dest, get_x_on_map() + w / 2, (posY + h), makecol(255, 0, 0));
+ 
 }
 
 void Player::jump() 
 {
 
-	jumping = true;
+	currently_jumping = true;
 	isAscendingForJump = true; 
 	jumpVelocity = MAX_JUMP_VELOCITY;
 	currentAnimation = ANIMATION_JUMPING;
@@ -161,13 +140,11 @@ void Player::jump()
  
 void Player::updatePos() 
 { 
-
-
-
+		// change jump height and velocity
 		jumpHeight += jumpVelocity;
 		yPos -= jumpVelocity;
 
-
+		// apply deceleration
 		jumpVelocity -= 0.025 * MAX_JUMP_VELOCITY;
 		int x1 = (int)(get_x_on_map() + w / 4.0) % (mapblockwidth * mapwidth);
 		int y = (int)((this->yPos + this->h)*960.0/SCREEN_H);
@@ -177,43 +154,35 @@ void Player::updatePos()
 		if (isAlive() && jumpVelocity<0 && ((MapGetBlock(x1/mapblockwidth, y / mapblockheight)->tl )
 			|| MapGetBlock(x2 / mapblockwidth, y / mapblockheight)->tl) && (y % mapblockheight < 20))
 		{
-			jumping = false;
+			currently_jumping = false;
 			jumpVelocity = 0;
 			currentAnimation = ANIMATION_RUNNING;
 
 			this->yPos -= (y % mapblockheight)*SCALING_FACTOR_RELATIVE_TO_1280;
-			jumpHeight += (y % mapblockheight)*SCALING_FACTOR_RELATIVE_TO_1280;
-
-
-
+			jumpHeight += (y % mapblockheight)*SCALING_FACTOR_RELATIVE_TO_1280; 
 			loop = true;
 
 		}
-
-
-
+ 
 
 		if (jumpHeight < -30 )
 		{
-			alive = 0; 
-			//rest(5000);
-
+			currently_alive = 0;
+			//rest(5000); 
 		}
 
 		if (isAlive() && (MapGetBlock(((x2+x1)/2) / mapblockwidth, y_mid / mapblockheight)->tl))
 		{
-			kill();
-
-			this->soundManager->playSound(SOUND_BUZZER, 1000);
-
+			kill(); 
+			this->soundManager->playSound(SOUND_BUZZER, 1000); 
 		}
 }
 
 void Player::kill()
-{
-	this->alive = false;
+{	
+	this->currently_alive = false;
 	currentAnimation = ANIMATION_DYING; 
-	jumping = false;
+	currently_jumping = false;
 	jumpVelocity = 0;
 	loop = false;
 }
