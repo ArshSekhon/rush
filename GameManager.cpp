@@ -129,7 +129,7 @@ int GameManager::init() {
 	rest(1200);
 
 
-	gameState->gameScreen = GAME_SCREEN_PLAY;
+	gameState->gameScreen = GAME_SCREEN_MAIN_MENU;
 	gameState->pendingMouseClick = 0;
 	return 0;
 }
