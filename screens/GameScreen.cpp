@@ -217,7 +217,7 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, BITMAP* bannerBitm
 
 		Sprite* enemySprite = enemies[i]->getSprite(); 
 
-		if (player->collided(buffer, player->getH() / 5, player->getW() / 6, enemySprite, enemySprite->getW() / 7, enemySprite->getH() / 4))
+		if (enemySprite->collided(buffer, enemySprite->getW() / 7, enemySprite->getH() / 4, (Sprite*)player, player->getH() / 5, player->getW() / 6))
 		{
 			player->kill();
 			soundManager->playSound(SOUND_BUZZER, 1000);
