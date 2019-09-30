@@ -30,7 +30,7 @@ GFXSettingsMenu::~GFXSettingsMenu() {
 	this->bannerBitmap = NULL;
 }
 
-int GFXSettingsMenu::drawGfxMenuAndHandleInput(BITMAP* buffer, BITMAP* backgroundBitmap, FONT* font ) {
+int GFXSettingsMenu::drawGfxMenuAndHandleInput(BITMAP* buffer, BITMAP* bannerBitmap, FONT* font ) {
 	gameState->gameScreen = GAME_SCREEN_GFX_SETTINGS;
 
 	rectfill(buffer, 0, 0, SCREEN_W, SCREEN_H, COLOR_BG);

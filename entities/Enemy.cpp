@@ -1,6 +1,6 @@
 #include "Enemy.h"
 
-Enemy::Enemy( int posX, int posY, int fps)
+Enemy::Enemy(BITMAP* wizardSpriteSheet, BITMAP* flameSpriteSheet, int posX, int posY, int fps)
 {	
 	// randomly generate enemy type
 	this->enemyType = std::rand() % (3);
@@ -13,7 +13,7 @@ Enemy::Enemy( int posX, int posY, int fps)
 		posY *= 1.03;
 		// create a sprite object
 		this->enemySprite = new Sprite(
-			load_bitmap("assets/sprites/flame.bmp", NULL),
+			flameSpriteSheet,
 			enemyW, enemyH, // w, h
 			1, 4,		// ssheetNumRows, ssheetNumCols
 			4, 12,		// numOfFrames ,  fps
@@ -30,7 +30,7 @@ Enemy::Enemy( int posX, int posY, int fps)
 		this->enemyW = 66 * SCALING_FACTOR_RELATIVE_TO_1280; 
 		// create a sprite object
 		this->enemySprite = new Sprite(
-			load_bitmap("assets/sprites/wizard-fly.bmp", NULL),
+			wizardSpriteSheet,
 			enemyW, enemyH, // w, h
 			1, 3,		// ssheetNumRows, ssheetNumCols
 			3, 12,		// numOfFrames ,  fps

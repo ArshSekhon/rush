@@ -126,10 +126,7 @@ int Sprite::collided(BITMAP* buffer, int shrinkWidth, int shrinkHeight, Sprite* 
 }
 
 
-Sprite::~Sprite() {
-	//destroy bitmap
-	if (this->bmp != NULL)
-		destroy_bitmap(this->bmp);
+Sprite::~Sprite() { 
 }
 
 void Sprite::move(int direction) {

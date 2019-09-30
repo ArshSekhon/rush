@@ -125,9 +125,6 @@
     <None Include=".gitignore" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="assets\sprites\adventurer-run.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="assets\sprites\skeleton-walk.bmp">
       <Filter>Resource Files</Filter>
     </Image>

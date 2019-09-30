@@ -112,7 +112,6 @@
     <None Include="Rush.cfg" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="assets\sprites\adventurer-run.bmp" />
     <Image Include="assets\sprites\skeleton-walk.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

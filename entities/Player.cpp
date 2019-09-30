@@ -4,7 +4,7 @@
 #define PLAYER_H 37
 
 
-Player::Player(SoundManager* soundManager, int initPosX, int initPosY, int initXonMap, int w, int h) : Sprite(load_bitmap("assets/sprites/adventurer-run.bmp",NULL),
+Player::Player(BITMAP* spritesheet, SoundManager* soundManager, int initPosX, int initPosY, int initXonMap, int w, int h) : Sprite(spritesheet,
 	w * SCALING_FACTOR_RELATIVE_TO_640, h * SCALING_FACTOR_RELATIVE_TO_640,
 	3, 5, 15,
 	12, 0, 0,

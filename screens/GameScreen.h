@@ -10,6 +10,7 @@
 #include "../Sprite.h"
 #include "../SoundManager.h"
 #include "../mappy/mappyal.h"
+#include "../assets/bitmaps_define.h"
 #include <allegro.h>
 
 #define OPTION_COLOR  makecol(76,46,16) 
@@ -37,6 +38,7 @@ private:
 	int currentScreen=0; 
 	int screenWrap_x_pending = 0;
 	int playerPos = 0; 
+	DATAFILE* bitmaps_datafile;
 
 	std::vector<Enemy*> enemies;
 	 
@@ -74,8 +76,9 @@ public:
 	 * 
 	 * @param gameState Pointer to the game state struct
 	 * @param soundManager Pointer to the sound manager object
+	 * @param bitmaps_datafile Pointer to the data file object containing all the bitmaps
 	 */
-	GameScreen(GameState* gameState, SoundManager* soundManager);
+	GameScreen(GameState* gameState, SoundManager* soundManager, DATAFILE* bitmaps_datafile);
 	/**
 	 * @brief Destroy the Game Screen object
 	 * 

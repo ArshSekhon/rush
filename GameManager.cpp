@@ -97,8 +97,8 @@ int GameManager::init() {
 
 
 	//load the custom mouse pointer
-	cursorHand = load_bitmap("assets/ui-elem/cursor-hand.bmp", NULL);
-	cursor = load_bitmap("assets/ui-elem/pointer.bmp", NULL);
+	cursorHand = (BITMAP*) this->bitmaps_datafile[CURSOR_HAND_BMP].dat;
+	cursor = (BITMAP*)this->bitmaps_datafile[POINTER_BMP].dat;
 	set_mouse_sprite(cursorHand);
 
 	// set_mouse_sprite_focus(cursor->w / 2, cursor->h / 2); 
@@ -124,7 +124,7 @@ int GameManager::init() {
 	creditsScreen = new CreditsScreen(gameState); 
 	gameHelpScreen = new GameHelpScreen(gameState);
 	gameIntroScreen = new GameIntroScreen(gameState, &configManager);
-	gameScreen = new GameScreen(gameState, soundManager);
+	gameScreen = new GameScreen(gameState, soundManager, bitmaps_datafile);
 
 
 	rest(1200);

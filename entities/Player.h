@@ -42,6 +42,7 @@ public:
 	/**
 	 * @brief Construct a new Player object
 	 * 
+	 * @param spritesheet Pointer to the spritesheet bitmap for the player
 	 * @param soundManager Pointer to the sound manager object that is used to play sound effects
 	 * @param initPosX Initial position (x-coordinate) of the player on the screen
 	 * @param initPosY Initial position (y-coordinate) of the player on the screen 
@@ -49,7 +50,7 @@ public:
 	 * @param w Width of the player on the screen
 	 * @param h Height of the player on the screen
 	 */
-	Player(SoundManager* soundManager, int initPosX, int initPosY, int initXonMap, int w, int h);
+	Player(BITMAP* spritesheet, SoundManager* soundManager, int initPosX, int initPosY, int initXonMap, int w, int h);
 	/**
 	 * @brief Destroy the Player object
 	 * 

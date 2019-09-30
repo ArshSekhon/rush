@@ -32,7 +32,7 @@ public:
 	 * @param bannerBitmap Pointer the bitmap for the banner
 	 * @param font Pointer to the font to be used for the text
 	 */
-	int drawGfxMenuAndHandleInput(BITMAP* buffer, BITMAP* backgroundBitmap, FONT* font);
+	int drawGfxMenuAndHandleInput(BITMAP* buffer, BITMAP* bannerBitmap, FONT* font);
 
 	/**
 	 * @brief Destroy the GFXSettingsMenu object and performs the required clean-up.

@@ -1,15 +1,15 @@
 #include "GameScreen.h" 
 
 
-GameScreen::GameScreen(GameState* gameState, SoundManager* soundManager)
+GameScreen::GameScreen(GameState* gameState, SoundManager* soundManager, DATAFILE* bitmaps_datafile)
 {
 	this->gameState = gameState;
 	this->soundManager = soundManager; 
-	 
+	this->bitmaps_datafile = bitmaps_datafile;
 
 	MapLoad((char*)"assets/map1.FMP");
 	//IMPORTANT player should be created only after mapload
-	this->player = new Player(this->soundManager, SCREEN_W/10, SCREEN_H * (0.555), 128, 30*0.95, 37*0.95 ); 
+	this->player = new Player((BITMAP*)this->bitmaps_datafile[ADVENTURER_RUN_BMP].dat , this->soundManager, SCREEN_W/10, SCREEN_H * (0.555), 128, 30*0.95, 37*0.95 );
 	//create two virtual screens for infinite scrolling
 	this->tmpGameScreens[0] = create_bitmap(TEMP_SCREEN_W, TEMP_SCREEN_H);
 	this->tmpGameScreens[1] = create_bitmap(TEMP_SCREEN_W, TEMP_SCREEN_H); 
@@ -153,7 +153,7 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, BITMAP* bannerBitm
 	// reset the game if required due to restart 
 	if (this->gameState->needPlayerReset) 
 	{
-		this->player = new Player(this->soundManager, SCREEN_W / 10, SCREEN_H * (0.555), 128, 30 * .95, 37 * .95);
+		this->player = new Player((BITMAP*)this->bitmaps_datafile[ADVENTURER_RUN_BMP].dat, this->soundManager, SCREEN_W / 10, SCREEN_H * (0.555), 128, 30 * .95, 37 * .95);
 		xOffset = 0;
 		screenWrap_x_pending = 0;
 		yOffset = 0;
@@ -265,7 +265,7 @@ void GameScreen::triggerReleases()
 	//release enemy depending on the randomly chosen release time
 	if (clock() - lastEnemyReleaseTime > enemyReleaseDelay) {
 		  
-		this->enemies.push_back(new Enemy((SCREEN_W * 1.3), ENEMY_SPAWN_HEIGHT, 24));
+		this->enemies.push_back(new Enemy((BITMAP*)this->bitmaps_datafile[WIZARD_FLY_BMP].dat, (BITMAP*)this->bitmaps_datafile[FLAME_BMP].dat, (SCREEN_W * 1.3), ENEMY_SPAWN_HEIGHT, 24));
 		this->enemyReleaseDelay = std::rand() % (2000) + 2000;
 
 		lastEnemyReleaseTime = clock(); 

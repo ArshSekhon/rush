@@ -25,11 +25,13 @@ public:
 	/**
 	 * @brief Construct a new Enemy object
 	 * 
+	 * @param wizardSpriteSheet Pointer to the spritesheet bitmap for the Wizard enemy type
+	 * @param flameSpriteSheet Pointer to the spritesheet bitmap for the flame enemy type
 	 * @param posX intial x-position of the enemy (can be greater than screen width)
 	 * @param posY intial y-position of the enemy
 	 * @param fps frame per second for the animation of the enemy sprite
 	 */
-	Enemy(  int posX, int posY, int fps);
+	Enemy(BITMAP* wizardSpriteSheet, BITMAP* flameSpriteSheet, int posX, int posY, int fps);
 	/**
 	 * @brief Renders the enemy to the destination bitmap
 	 * 
