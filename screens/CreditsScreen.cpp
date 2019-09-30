@@ -5,13 +5,12 @@ DIALOG creditsDialog = { d_textbox_proc, 0, 0,  0,  0,  0,  0, 0, 0, 0,   0, NUL
 DIALOG_PLAYER* creditsPlayer;
 // constructor to do the initializations
 CreditsScreen::CreditsScreen(GameState* gameState) {
-	this->gameState = gameState;
-	this->bannerBitmap = load_bitmap("assets/ui-elem/banner.bmp", NULL);
+	this->gameState = gameState; 
 
 	this->credits = (char*)"The enemy flame sprite and some other UI elements of the game like buttons etc. was created by the author of the game: Arsh Sekhon \n\nTiles used in the game were obtained from: https://www.kenney.nl/assets/simplified-platformer-pack \n\nThe sprites for the player character were obtained from: https://rvros.itch.io/animated-pixel-hero \n\nThe sprites for enemies were obtained from: https://lionheart963.itch.io/wizard \n\n\nThe music for the game (legend.mid) was obtained from: http://fredrikj.net/music/ and is unchanged. The music was publsihed under Attribution-NonCommercial-ShareAlike 3.0 Unported (CC BY-NC-SA 3.0) license. \n\nSound FX were obtained from following sources:\nhttp://www.wavsource.com/sfx/sfx.htm \nhttps://opengameart.org/content/platformer-jumping-sounds";
 }
 
-void CreditsScreen::drawCreditsScreenAndHandleInput(BITMAP* buffer, BITMAP* backgroundBitmap, FONT* headingFont, FONT* textFont ) {
+void CreditsScreen::drawCreditsScreenAndHandleInput(BITMAP* buffer, BITMAP* backgroundBitmap, BITMAP* bannerBitmap, FONT* headingFont, FONT* textFont ) {
 
 	rectfill(buffer, 0, 0, SCREEN_W, SCREEN_H, COLOR_BG);
 

@@ -1,15 +1,13 @@
 #include "SettingsMenu.h"
 
 
-SettingsMenu::SettingsMenu(GameState* gameState) {
-	this->bannerBitmap = load_bitmap("assets/ui-elem/banner.bmp", NULL);
+SettingsMenu::SettingsMenu(GameState* gameState) { 
 	this->gameState = gameState;
 }
-SettingsMenu::~SettingsMenu() {
-	destroy_bitmap(this->bannerBitmap);
+SettingsMenu::~SettingsMenu() { 
 }
 
-void SettingsMenu::drawSettingsMenuAndHandleInput(BITMAP* buffer, BITMAP* backgroundBitmap, FONT* font) {
+void SettingsMenu::drawSettingsMenuAndHandleInput(BITMAP* buffer, BITMAP* bannerBitmap, FONT* font) {
 
 	rectfill(buffer, 0, 0, SCREEN_W, SCREEN_H, COLOR_BG);
 

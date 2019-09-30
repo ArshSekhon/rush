@@ -2,11 +2,21 @@
 
 SoundManager::SoundManager(GameState* gameState) {
 	this->gameState = gameState;
+	this->sounds_datafile = load_datafile("assets/sounds.dat");
+
 	//load music
-	this->bgMusic = load_midi("assets/sounds/legend.mid"); 
-	this->buzzer = load_wav("assets/sounds/buzzer.wav");
-	this->clickSound = load_wav("assets/sounds/click.wav");
-	this->boingSound = load_wav("assets/sounds/jump_09.wav");
+	this->bgMusic = (MIDI*)sounds_datafile[LEGEND_MID].dat;;
+	this->buzzer = (SAMPLE*)sounds_datafile[BUZZER_WAV].dat;
+	this->clickSound = (SAMPLE*)sounds_datafile[CLICK_WAV].dat;
+	this->boingSound = (SAMPLE*)sounds_datafile[JUMP_09_WAV].dat;
+
+
+	if (!buzzer || !clickSound || !boingSound || !bgMusic) {		allegro_message("Error loading sounds.dat");	}
+
+}
+
+SoundManager::~SoundManager() {
+	unload_datafile(sounds_datafile);
 }
 
 void SoundManager::playBgMusic(int loop) {

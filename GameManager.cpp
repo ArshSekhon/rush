@@ -64,12 +64,12 @@ int GameManager::init() {
 
 
 
+	this->bitmaps_datafile = load_datafile("assets/bmps.dat");
+
 	if (this->loadingBanner == NULL)
-		loadingBanner = load_bitmap("assets/ui-elem/loading-banner.bmp", NULL);
+		loadingBanner = (BITMAP*)this->bitmaps_datafile[LOADING_BANNER_BMP].dat;
 	if (this->menuBanner == NULL)
-		menuBanner = (load_bitmap("assets/ui-elem/banner.bmp", NULL));
-	if (this->menuBackground == NULL)
-		menuBackground = load_bitmap("assets/backgrounds/background-menus.bmp", NULL);
+		menuBanner = (BITMAP*)this->bitmaps_datafile[BANNER_BMP].dat; 
 
 
 	showLoadingScreen();
@@ -109,13 +109,14 @@ int GameManager::init() {
 		return ERROR_ALLEGRO_KEYBOARD_INIT;
 	}
 
+	this->font_datafile = load_datafile("assets/fonts.dat");
 
-	this->headingFont = load_font("assets/font-36.pcx", NULL, NULL);
-	this->textFont = load_font("assets/font-tnr-16.pcx", NULL, NULL);
+	this->headingFont = (FONT*) this->font_datafile[FONT_36_PCX].dat;
+	this->textFont = (FONT*) this->font_datafile[FONT_TNR_16_PCX].dat;
 
 
 
-	mainMenu = new MainMenu(gameState);
+	mainMenu = new MainMenu(gameState, (BITMAP*)this->bitmaps_datafile[MAINMENU_BUTTONS_BMP].dat, (BITMAP*)this->bitmaps_datafile[MAINMENU_BG_BMP].dat);
 	settingsMenu = new SettingsMenu(gameState);
 	gfxSettingsMenu = new GFXSettingsMenu(gameState, &configManager);
 	soundSettingsMenu = new SoundSettingsMenu(gameState, &configManager);
@@ -129,7 +130,7 @@ int GameManager::init() {
 	rest(1200);
 
 
-	gameState->gameScreen = GAME_SCREEN_PLAY;
+	gameState->gameScreen = GAME_SCREEN_MAIN_MENU;
 	gameState->pendingMouseClick = 0;
 	return 0;
 }
@@ -265,25 +266,25 @@ void GameManager::renderFrameToBuffer(BITMAP* buffer) {
 		gameState->gameScreen = mainMenu->showMainMenu(buffer);
 		break;
 	case GAME_SCREEN_SETTINGS:
-		settingsMenu->drawSettingsMenuAndHandleInput(buffer, this->menuBackground, this->headingFont);
+		settingsMenu->drawSettingsMenuAndHandleInput(buffer, this->menuBanner, this->headingFont);
 		break;
 	case GAME_SCREEN_GFX_SETTINGS:
-		gfxSettingsMenu->drawGfxMenuAndHandleInput(buffer, this->menuBackground, this->headingFont);
+		gfxSettingsMenu->drawGfxMenuAndHandleInput(buffer, this->menuBanner, this->headingFont);
 		break;
 	case GAME_SCREEN_SOUND_SETTINGS:
-		soundSettingsMenu->drawSoundSettingsMenuAndHandleInput(buffer, this->menuBackground, this->headingFont);
+		soundSettingsMenu->drawSoundSettingsMenuAndHandleInput(buffer, this->menuBanner, this->headingFont);
 		break;  
 	case GAME_SCREEN_CREDITS:
-		creditsScreen->drawCreditsScreenAndHandleInput(buffer, this->menuBackground, this->headingFont, this->textFont);
+		creditsScreen->drawCreditsScreenAndHandleInput(buffer, this->menuBackground, this->menuBanner, this->headingFont, this->textFont);
 		break;
 	case GAME_SCREEN_START:
-		gameIntroScreen->drawIntroScreenAndHandleInput(buffer, this->menuBackground, this->headingFont, this->textFont);
+		gameIntroScreen->drawIntroScreenAndHandleInput(buffer, this->menuBackground, this->menuBanner, this->headingFont, this->textFont);
 		break;
 	case GAME_SCREEN_HELP:
-		gameHelpScreen->drawHelpScreenAndHandleInput(buffer, this->menuBackground, this->headingFont, this->textFont, (char*)"CONTINUE");
+		gameHelpScreen->drawHelpScreenAndHandleInput(buffer, this->menuBackground, (BITMAP*)this->bitmaps_datafile[HELP_BANNER_BMP].dat, this->headingFont, this->textFont, (char*)"CONTINUE");
 		break;
 	case GAME_SCREEN_PLAY:
-		gameScreen->drawGameScreenAndHandleInput(buffer, this->headingFont, this->textFont);
+		gameScreen->drawGameScreenAndHandleInput(buffer, this->menuBanner, this->headingFont, this->textFont);
 	}
 
 }

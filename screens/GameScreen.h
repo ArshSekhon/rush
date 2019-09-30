@@ -29,8 +29,7 @@ private:
 	GameState* gameState;
 	// pointers to the bitmaps
 	BITMAP* gameBackground;
-	BITMAP* genericBackground;
-	BITMAP* bannerBitmap; 
+	BITMAP* genericBackground; 
 	//pointer to the player object
 	Player* player; 
 
@@ -43,7 +42,7 @@ private:
 	 
 	int numFrames;  
 	// function to display the result banner at the end of the game
-	void displayResultsBannerAndHandleInput(BITMAP* buffer, FONT* textFont);
+	void displayResultsBannerAndHandleInput(BITMAP* buffer, BITMAP* bannerBitmap, FONT* textFont);
 	unsigned long timeElasped = 0, startTime = 0;
 	  
 	// vars to store information regarding the timming of mine bomb and enemy releases
@@ -86,9 +85,10 @@ public:
 	 * @brief Draws the game screen to the bitmap and handles the keyboard input
 	 * 
 	 * @param buffer Bitmap where the game screen is rendered
+	 * @param bannerBitmap Pointer the bitmap for the banner
 	 * @param headingFont Font used for the headings
 	 * @param textFont Font used for the texts
 	 */
-	void drawGameScreenAndHandleInput(BITMAP* buffer, FONT* headingFont, FONT* textFont);
+	void drawGameScreenAndHandleInput(BITMAP* buffer, BITMAP* bannerBitmap, FONT* headingFont, FONT* textFont);
 };
 

@@ -33,12 +33,13 @@ public:
 	 * and apply them to the game when apply button is pressed.
 	 * 
 	 * @param buffer Screen buffer or other buffer where the Sound related settings screen has to be drawn.
+	 * @param bannerBitmap Pointer the bitmap for the banner
+	 * @param font Pointer to the font to use for the text
 	 */
-	void drawSoundSettingsMenuAndHandleInput(BITMAP* buffer, BITMAP* backgroundBitmap, FONT* font);
+	void drawSoundSettingsMenuAndHandleInput(BITMAP* buffer, BITMAP* bannerBitmap, FONT* font);
 private:
 	GameState* gameState;
-	ConfigManager* configManager;
-	BITMAP* bannerBitmap;
+	ConfigManager* configManager; 
 	BoundingBox backButton;
 	BoundingBox applyButton; 
 	int soundVolume;

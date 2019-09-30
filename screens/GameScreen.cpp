@@ -9,8 +9,7 @@ GameScreen::GameScreen(GameState* gameState, SoundManager* soundManager)
 
 	MapLoad((char*)"assets/map1.FMP");
 	//IMPORTANT player should be created only after mapload
-	this->player = new Player(this->soundManager, SCREEN_W/10, SCREEN_H * (0.555), 128, 30*0.95, 37*0.95 );
-	this->bannerBitmap = load_bitmap("assets/ui-elem/banner.bmp", NULL);
+	this->player = new Player(this->soundManager, SCREEN_W/10, SCREEN_H * (0.555), 128, 30*0.95, 37*0.95 ); 
 	//create two virtual screens for infinite scrolling
 	this->tmpGameScreens[0] = create_bitmap(TEMP_SCREEN_W, TEMP_SCREEN_H);
 	this->tmpGameScreens[1] = create_bitmap(TEMP_SCREEN_W, TEMP_SCREEN_H); 
@@ -22,7 +21,7 @@ GameScreen::~GameScreen()
 	this->player->~Player();
 } 
 
-void GameScreen::displayResultsBannerAndHandleInput(BITMAP* buffer, FONT* textFont)
+void GameScreen::displayResultsBannerAndHandleInput(BITMAP* buffer, BITMAP* bannerBitmap, FONT* textFont)
 {
 
 	rectfill(buffer, 0, 0, SCREEN_W, SCREEN_H, COLOR_BG);
@@ -121,7 +120,7 @@ void GameScreen::displayResultsBannerAndHandleInput(BITMAP* buffer, FONT* textFo
 	
 }
 
-void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, FONT* headingFont, FONT* textFont) {
+void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, BITMAP* bannerBitmap, FONT* headingFont, FONT* textFont) {
 	// calculates how much time has passed in the game
 	if (this->startTime == 0) {
 		startTime = clock();
@@ -251,7 +250,7 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, FONT* headingFont,
 
 	if(!player->isAlive() && player->getY()> SCREEN_H)
 	{
-		displayResultsBannerAndHandleInput(buffer, headingFont);
+		displayResultsBannerAndHandleInput(buffer, bannerBitmap, headingFont);
 	}
 
 

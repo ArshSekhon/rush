@@ -20,8 +20,10 @@ public:
 	 * @brief Construct a new MainMenu object that would be used to create the Main menu
 	 * 
 	 * @param gs Pointer to the game state struct that is shared by the entire game 
+	 * @param buttonsBitmap pointer to the buttons bitmap
+	 * @param mainMenuBG pointer to the main menu BG bitmap
 	 */
-	MainMenu(GameState* gs);
+	MainMenu(GameState* gs, BITMAP* buttonsBitmap, BITMAP* mainMenuBG);
 
 	/**
 	 * @brief Draws main menu on to the buffer passed as an arguement 

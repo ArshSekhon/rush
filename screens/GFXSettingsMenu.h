@@ -29,6 +29,8 @@ public:
 	 * and apply them to the game when apply button is pressed.
 	 * 
 	 * @param buffer Screen buffer or other buffer where the Graphic settings screen has to be drawn.
+	 * @param bannerBitmap Pointer the bitmap for the banner
+	 * @param font Pointer to the font to be used for the text
 	 */
 	int drawGfxMenuAndHandleInput(BITMAP* buffer, BITMAP* backgroundBitmap, FONT* font);
 

@@ -12,8 +12,7 @@
  */
 class SettingsMenu
 {
-private:
-	BITMAP* bannerBitmap;
+private: 
 	GameState* gameState;
 	BoundingBox soundSettingButton;
 	BoundingBox gfxSettingButton;
@@ -41,7 +40,9 @@ public:
 	 * and also handles mouse click events for the same.
 	 * 
 	 * @param buffer Screen buffer or other buffer where the Settings screen has to be drawn.
+	 * @param bannerBitmap Pointer the bitmap for the banner
+	 * @param font Pointer to the font to use for the text
 	 */
-	void drawSettingsMenuAndHandleInput(BITMAP* buffer, BITMAP* backgroundBitmap, FONT* headingFont);
+	void drawSettingsMenuAndHandleInput(BITMAP* buffer, BITMAP* bannerBitmap, FONT* font);
 };
 

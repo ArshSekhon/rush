@@ -4,8 +4,7 @@
 SoundSettingsMenu::SoundSettingsMenu(GameState* gs, ConfigManager* configManager) {
 	this->gameState = gs;
 	this->configManager = configManager;
-
-	this->bannerBitmap = load_bitmap("assets/ui-elem/Banner.bmp", NULL);
+	 
 	this->musicVolume = gs->music_volume;
 	this->soundVolume = gs->sound_volume;
 	this->levels = new const char* [11]{ "0" ,"1","2","3","4","5","6","7","8","9","10"};
@@ -14,12 +13,11 @@ SoundSettingsMenu::SoundSettingsMenu(GameState* gs, ConfigManager* configManager
 }
 
 
-SoundSettingsMenu::~SoundSettingsMenu() {
-	destroy_bitmap(bannerBitmap);
+SoundSettingsMenu::~SoundSettingsMenu() { 
 }
 
 
-void SoundSettingsMenu::drawSoundSettingsMenuAndHandleInput(BITMAP* buffer, BITMAP* backgroundBitmap, FONT* font) {
+void SoundSettingsMenu::drawSoundSettingsMenuAndHandleInput(BITMAP* buffer, BITMAP* bannerBitmap, FONT* font) {
 
 	rectfill(buffer, 0, 0, SCREEN_W, SCREEN_H, COLOR_BG);
 

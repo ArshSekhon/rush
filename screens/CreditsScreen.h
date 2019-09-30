@@ -12,8 +12,7 @@
  */
 class CreditsScreen
 {
-private:
-	BITMAP* bannerBitmap;
+private: 
 	GameState* gameState;
 	BITMAP* tempScreenBmp; 
 	char* credits; 
@@ -31,7 +30,10 @@ public:
 	 * @brief This function draws credits menu on to the buffer passed as an arguement and also handles mouse clicks for the credits menu screen.
 	 * 
 	 * @param buffer Screen buffer or other buffer where the Credits screen has to be drawn.
+	 * @param bannerBitmap Pointer the bitmap for the banner
+	 * @param headingFont Pointer to the font used for headings
+	 * @param textFont Pointer to the font used for text
 	 */
-	void drawCreditsScreenAndHandleInput(BITMAP* buffer, BITMAP* backgroundBitmap, FONT* headingFont, FONT* textFont);
+	void drawCreditsScreenAndHandleInput(BITMAP* buffer, BITMAP* backgroundBitmap, BITMAP* bannerBitmap, FONT* headingFont, FONT* textFont);
 };
 
