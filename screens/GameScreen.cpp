@@ -1,5 +1,24 @@
 #include "GameScreen.h" 
 
+int GameScreen::counter_thread = 0;
+
+std::mutex GameScreen::threadSafeMutex;
+std::condition_variable GameScreen::cv; 
+
+void thread_func() {
+	while (true)
+	{
+		std::unique_lock<std::mutex> lk(GameScreen::threadSafeMutex);
+		GameScreen::cv.wait(
+			lk, [] {return true; });
+		GameScreen::counter_thread++;
+		lk.unlock();
+		rest(1000);
+	}
+}
+
+std::thread* GameScreen::enemyGeneratorThread = new std::thread(&thread_func);
+
 
 GameScreen::GameScreen(GameState* gameState, SoundManager* soundManager, DATAFILE* bitmaps_datafile)
 {
@@ -245,6 +264,11 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, BITMAP* bannerBitm
 	Utility::textout_magnified(buffer, headingFont, 30, 10,0.5, "SCORE: ", makecol(0, 0, 0), -1);
 	Utility::textout_magnified(buffer, headingFont, 120, 10, 0.5, std::to_string((int)this->gameState->currentScore).c_str(), makecol(0, 0, 0), -1);
 
+	std::lock_guard<std::mutex> lk(threadSafeMutex);
+	//cv.wait(lk, cond_func); 
+	//Utility::textout_magnified(buffer, headingFont, 100, 10, 0.5, "SCORE: "+counter_thread, makecol(0, 0, 0), -1);
+	textprintf_centre(buffer, headingFont, 100, 100, makecol(255, 0, 0), "THREAD: %d", counter_thread);
+	cv.notify_one(); 
 
 
 
@@ -272,4 +296,8 @@ void GameScreen::triggerReleases()
 	}
 
 	
+}
+
+bool GameScreen::cond_func() {
+	return true;
 }

@@ -4,6 +4,9 @@
 #include <string>
 #include <cstdlib>
 #include <ctime>  
+#include <thread>
+#include <mutex>
+#include <condition_variable>
 #include "../entities/Player.h"
 #include "../entities/Enemy.h"
 #include "../Utility.h"
@@ -69,7 +72,14 @@ private:
 	int exitToMainMenuButtonColor, restartGameButtonColor;
 	SoundManager* soundManager; 
 
+
 public:
+
+	static std::thread* enemyGeneratorThread;
+	static std::mutex threadSafeMutex;
+	static std::condition_variable cv;
+	static bool cond_func();
+	static int counter_thread;
 
 	/**
 	 * @brief Construct a new Game Screen object
