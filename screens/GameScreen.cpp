@@ -1,23 +1,15 @@
 #include "GameScreen.h" 
-
-int GameScreen::counter_thread = 0;
-
-std::mutex GameScreen::threadSafeMutex;
-std::condition_variable GameScreen::cv; 
-
-void thread_func() {
+ 
+ 
+// TODO: change trigger condition
+void thread_func(GameScreen* gs) {
 	while (true)
 	{
-		std::unique_lock<std::mutex> lk(GameScreen::threadSafeMutex);
-		GameScreen::cv.wait(
-			lk, [] {return true; });
-		GameScreen::counter_thread++;
-		lk.unlock();
+		gs->triggerReleases();
 		rest(1000);
 	}
 }
 
-std::thread* GameScreen::enemyGeneratorThread = new std::thread(&thread_func);
 
 
 GameScreen::GameScreen(GameState* gameState, SoundManager* soundManager, DATAFILE* bitmaps_datafile)
@@ -25,6 +17,9 @@ GameScreen::GameScreen(GameState* gameState, SoundManager* soundManager, DATAFIL
 	this->gameState = gameState;
 	this->soundManager = soundManager; 
 	this->bitmaps_datafile = bitmaps_datafile;
+
+
+	enemyGeneratorThread = new std::thread(&thread_func, this);
 
 	MapLoad((char*)"assets/map1.FMP");
 	//IMPORTANT player should be created only after mapload
@@ -38,6 +33,7 @@ GameScreen::GameScreen(GameState* gameState, SoundManager* soundManager, DATAFIL
 GameScreen::~GameScreen()
 {
 	this->player->~Player();
+	this->enemyGeneratorThread->~thread();
 } 
 
 void GameScreen::displayResultsBannerAndHandleInput(BITMAP* buffer, BITMAP* bannerBitmap, FONT* textFont)
@@ -229,26 +225,13 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, BITMAP* bannerBitm
 	}
 
  
-	//render enemies and check for any hits
-	for (int i = 0; i < enemies.size(); i++)
-	{
-		enemies[i]->renderEnemy(buffer); 
+	std::lock_guard<std::mutex> lk(threadSafeMutex);
+	//cv.wait(lk, cond_func); 
+	//Utility::textout_magnified(buffer, headingFont, 100, 10, 0.5, "SCORE: "+counter_thread, makecol(0, 0, 0), -1);
+	textprintf_centre(buffer, font, 100, 100, makecol(255, 0, 0), "THREAD: %d", counter_thread);
 
-		Sprite* enemySprite = enemies[i]->getSprite(); 
-
-		if (enemySprite->collided(buffer, enemySprite->getW() / 7, enemySprite->getH() / 4, (Sprite*)player, player->getH() / 5, player->getW() / 6))
-		{
-			player->kill();
-			soundManager->playSound(SOUND_BUZZER, 1000);
-		}
- 
-		if (enemySprite->getX() + enemySprite->getH() < 0) {  
-			enemies[i]->~Enemy();
-			enemies.erase(enemies.begin() + i--);
-		}
-	}
-
- 
+	renderEnemiesAndCheckForHits(buffer);
+	cv.notify_one();
 
 
 	// render the player
@@ -263,41 +246,65 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, BITMAP* bannerBitm
 	// display score
 	Utility::textout_magnified(buffer, headingFont, 30, 10,0.5, "SCORE: ", makecol(0, 0, 0), -1);
 	Utility::textout_magnified(buffer, headingFont, 120, 10, 0.5, std::to_string((int)this->gameState->currentScore).c_str(), makecol(0, 0, 0), -1);
-
-	std::lock_guard<std::mutex> lk(threadSafeMutex);
-	//cv.wait(lk, cond_func); 
-	//Utility::textout_magnified(buffer, headingFont, 100, 10, 0.5, "SCORE: "+counter_thread, makecol(0, 0, 0), -1);
-	textprintf_centre(buffer, headingFont, 100, 100, makecol(255, 0, 0), "THREAD: %d", counter_thread);
-	cv.notify_one(); 
-
-
-
-	if(!player->isAlive() && player->getY()> SCREEN_H)
+	
+	if (!player->isAlive() && player->getY() > SCREEN_H)
 	{
 		displayResultsBannerAndHandleInput(buffer, bannerBitmap, headingFont);
 	}
 
+	
 
-	this->triggerReleases(); 
+
+
+	//this->triggerReleases();
 	
 	//rest(100);
 }
   
 
+bool GameScreen::isGameRunningAndPlayerAlive() {
+	return this->player!=nullptr && this->player->isAlive() && this->gameState->gameScreen == GAME_SCREEN_PLAY;
+}
+
+
 void GameScreen::triggerReleases()
 {	 
+
 	//release enemy depending on the randomly chosen release time
 	if (clock() - lastEnemyReleaseTime > enemyReleaseDelay) {
-		  
+		
+		std::unique_lock<std::mutex> lk(this->threadSafeMutex);
+		this->cv.wait(lk, [this] {return this->isGameRunningAndPlayerAlive(); });
 		this->enemies.push_back(new Enemy((BITMAP*)this->bitmaps_datafile[WIZARD_FLY_BMP].dat, (BITMAP*)this->bitmaps_datafile[FLAME_BMP].dat, (SCREEN_W * 1.3), ENEMY_SPAWN_HEIGHT, 24));
 		this->enemyReleaseDelay = std::rand() % (2000) + 2000;
 
 		lastEnemyReleaseTime = clock(); 
+
+		lk.unlock();
 	}
 
 	
 }
 
-bool GameScreen::cond_func() {
-	return true;
+
+void GameScreen::renderEnemiesAndCheckForHits(BITMAP* buffer) {
+	//render enemies and check for any hits
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		enemies[i]->renderEnemy(buffer);
+
+		Sprite* enemySprite = enemies[i]->getSprite();
+
+		if (enemySprite->collided(buffer, enemySprite->getW() / 7, enemySprite->getH() / 4, (Sprite*)player, player->getH() / 5, player->getW() / 6))
+		{
+			player->kill();
+			soundManager->playSound(SOUND_BUZZER, 1000);
+		}
+
+		if (enemySprite->getX() + enemySprite->getH() < 0) {
+			enemies[i]->~Enemy();
+			enemies.erase(enemies.begin() + i--);
+		}
+	}
+
 }

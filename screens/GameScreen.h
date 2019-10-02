@@ -54,8 +54,6 @@ private:
 	unsigned long lastEnemyReleaseTime = 0;
 	int enemyReleaseDelay = 0;
 
-	// function to check if it is the time for any new releases of enemy entities 
-	void triggerReleases();
 
 	long gameOverTime = -1;
 	int gameOverDelay = 1000;
@@ -72,14 +70,22 @@ private:
 	int exitToMainMenuButtonColor, restartGameButtonColor;
 	SoundManager* soundManager; 
 
+	void renderEnemiesAndCheckForHits(BITMAP* buffer);
+
 
 public:
 
-	static std::thread* enemyGeneratorThread;
-	static std::mutex threadSafeMutex;
-	static std::condition_variable cv;
-	static bool cond_func();
-	static int counter_thread;
+	std::thread* enemyGeneratorThread;
+	std::mutex threadSafeMutex;
+	std::condition_variable cv;
+	bool cond_func();
+	int counter_thread;
+
+
+	// function to check if it is the time for any new releases of enemy entities 
+	void triggerReleases();
+	bool isGameRunningAndPlayerAlive();
+
 
 	/**
 	 * @brief Construct a new Game Screen object
