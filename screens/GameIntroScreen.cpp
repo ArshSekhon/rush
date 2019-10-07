@@ -8,7 +8,7 @@ GameIntroScreen::GameIntroScreen(GameState* gameState, ConfigManager* configMana
 	this->bannerBitmap = load_bitmap("assets/ui-elem/banner.bmp", NULL);
 	 
 
-	this->introText = (char*)"Welcome to Rush: Escaping the Doom! You are the prince of the great kindgom of Zourus, your kingdom was cursed by a Wizard and has been experiencing a famine for last few years. According to the priest of the kingdom, the only way to break the curse was to take royal Golden Goblet as far from the kingdom as possible. You took on this challenge but completing it is not so easy.....\n\nDistrubing the Goblet of fire has unleashed evil spirits on to you. Now you are running away from the kingdom with the Golden Goblet and the evil spirits are trying to stop you....\n\nEscape them and take the Goblet as far as possible..... Remember! Dont run into the evil spirits or any obstacles on your way..... Go Save your Kingdom!";
+	this->introText = (char*)"Welcome to Rush: Escaping the Doom! You are the prince of the great kindgom of Zourus, your kingdom was cursed by a Wizard and has been experiencing a famine for last few years. According to the priest of the kingdom, the only way to break the curse was to take royal Golden Goblet as far from the kingdom as possible. You took on this challenge but completing it is not so easy.....\n\nDistrubing the Goblet has unleashed evil spirits on to you. Now you are running away from the kingdom with the Golden Goblet and the evil spirits are trying to stop you....\n\nEscape them and take the Goblet as far as possible..... Remember! Dont run into the evil spirits or any obstacles on your way..... Go Save your Kingdom!";
 }
 
 void GameIntroScreen::drawIntroScreenAndHandleInput(BITMAP* buffer, FONT* headingFont, FONT* textFont) {
