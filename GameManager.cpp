@@ -265,19 +265,19 @@ void GameManager::renderFrameToBuffer(BITMAP* buffer) {
 		gameState->gameScreen = mainMenu->showMainMenu(buffer);
 		break;
 	case GAME_SCREEN_SETTINGS:
-		settingsMenu->drawSettingsMenuAndHandleInput(buffer, this->menuBackground, this->headingFont);
+		settingsMenu->drawSettingsMenuAndHandleInput(buffer, this->headingFont);
 		break;
 	case GAME_SCREEN_GFX_SETTINGS:
-		gfxSettingsMenu->drawGfxMenuAndHandleInput(buffer, this->menuBackground, this->headingFont);
+		gfxSettingsMenu->drawGfxMenuAndHandleInput(buffer, this->headingFont);
 		break;
 	case GAME_SCREEN_SOUND_SETTINGS:
-		soundSettingsMenu->drawSoundSettingsMenuAndHandleInput(buffer, this->menuBackground, this->headingFont);
+		soundSettingsMenu->drawSoundSettingsMenuAndHandleInput(buffer,  this->headingFont);
 		break;  
 	case GAME_SCREEN_CREDITS:
 		creditsScreen->drawCreditsScreenAndHandleInput(buffer,  this->headingFont, this->textFont);
 		break;
 	case GAME_SCREEN_START:
-		gameIntroScreen->drawIntroScreenAndHandleInput(buffer, this->menuBackground, this->headingFont, this->textFont);
+		gameIntroScreen->drawIntroScreenAndHandleInput(buffer,  this->headingFont, this->textFont);
 		break;
 	case GAME_SCREEN_HELP:
 		gameHelpScreen->drawHelpScreenAndHandleInput(buffer, this->headingFont, (char*)"CONTINUE");
