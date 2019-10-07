@@ -19,7 +19,7 @@ SoundSettingsMenu::~SoundSettingsMenu() {
 }
 
 
-void SoundSettingsMenu::drawSoundSettingsMenuAndHandleInput(BITMAP* buffer, BITMAP* backgroundBitmap, FONT* font) {
+void SoundSettingsMenu::drawSoundSettingsMenuAndHandleInput(BITMAP* buffer, FONT* font) {
 
 	rectfill(buffer, 0, 0, SCREEN_W, SCREEN_H, COLOR_BG);
 

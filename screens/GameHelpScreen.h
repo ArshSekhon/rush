@@ -43,8 +43,10 @@ public:
 	 * @brief Draws game intro screen on to the buffer passed as an arguement 
 	 * and also handles mouse click events for the same.
 	 * 
-	 * @param buffer Screen buffer or other buffer where the game intro screen screen has to be drawn.
+	 * @param buffer Screen buffer or other buffer where the game intro screen screen has to be drawn. 
+	 * @param headingFont Pointer to the font used for the heading for help screen
+	 * @param buttonText Text to be displayed on the close button for the banner
 	 */
-	void drawHelpScreenAndHandleInput(BITMAP* buffer, BITMAP* backgroundBitmap, FONT* headingFont, FONT* textFont, char* buttonText);
+	void drawHelpScreenAndHandleInput(BITMAP* buffer,  FONT* headingFont, char* buttonText);
 };
 

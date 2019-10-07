@@ -33,8 +33,9 @@ public:
 	 * and apply them to the game when apply button is pressed.
 	 * 
 	 * @param buffer Screen buffer or other buffer where the Sound related settings screen has to be drawn.
+	 * @param font Pointer to the font to be used for the screen
 	 */
-	void drawSoundSettingsMenuAndHandleInput(BITMAP* buffer, BITMAP* backgroundBitmap, FONT* font);
+	void drawSoundSettingsMenuAndHandleInput(BITMAP* buffer, FONT* font);
 private:
 	GameState* gameState;
 	ConfigManager* configManager;

@@ -8,7 +8,7 @@ GameHelpScreen::GameHelpScreen(GameState* gameState) {
 	this->introText = (char*)"Welcome to Game Development Trivia! This game is based on questions from the back exercises of the book Game Programming All in One by Jonathan S. Harbour. \n\nYou can choose the chapters you want the questions in the quiz to be from in the next screen. \n\nGame will prepare a quiz of 10 questions for you and you have to choose the most accurate option for each question by clicking on it. \n\nGame will keep track of your score and display the results at the end of the game. I hope you enjoy it!";
 }
 
-void GameHelpScreen::drawHelpScreenAndHandleInput(BITMAP* buffer, BITMAP* backgroundBitmap, FONT* headingFont, FONT* textFont, char* buttonText) {
+void GameHelpScreen::drawHelpScreenAndHandleInput(BITMAP* buffer, FONT* headingFont, char* buttonText) {
 
 	rectfill(buffer, 0, 0, SCREEN_W, SCREEN_H, COLOR_BG);
 

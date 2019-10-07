@@ -29,8 +29,9 @@ public:
 	 * and apply them to the game when apply button is pressed.
 	 * 
 	 * @param buffer Screen buffer or other buffer where the Graphic settings screen has to be drawn.
+	 * @param backgroundBitmap Pointer to the font to use for the GFX menu
 	 */
-	int drawGfxMenuAndHandleInput(BITMAP* buffer, BITMAP* backgroundBitmap, FONT* font);
+	int drawGfxMenuAndHandleInput(BITMAP* buffer, FONT* font);
 
 	/**
 	 * @brief Destroy the GFXSettingsMenu object and performs the required clean-up.

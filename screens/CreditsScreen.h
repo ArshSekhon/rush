@@ -31,7 +31,9 @@ public:
 	 * @brief This function draws credits menu on to the buffer passed as an arguement and also handles mouse clicks for the credits menu screen.
 	 * 
 	 * @param buffer Screen buffer or other buffer where the Credits screen has to be drawn.
+	 * @param heading Pointer to the font used for the heading 
+	 * @param textFont Pointer to the font used for the text on the screen
 	 */
-	void drawCreditsScreenAndHandleInput(BITMAP* buffer, BITMAP* backgroundBitmap, FONT* headingFont, FONT* textFont);
+	void drawCreditsScreenAndHandleInput(BITMAP* buffer,  FONT* headingFont, FONT* textFont);
 };
 

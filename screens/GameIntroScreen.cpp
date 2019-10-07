@@ -11,7 +11,7 @@ GameIntroScreen::GameIntroScreen(GameState* gameState, ConfigManager* configMana
 	this->introText = (char*)"Welcome to Rush: Escaping the Doom! You are the prince of the great kindgom of Zourus, your kingdom was cursed by a Wizard and has been experiencing a famine for last few years. According to the priest of the kingdom, the only way to break the curse was to use the Golden Goblet that was hidden in the jungle. You went to the jungle and was able to find the Golden Goblet but.... bringing it home is not as easy.... \n\nDistrubing the Goblet of fire has unleashed evil spirits on to you (Don't run into them on your way back). Escape them and get back home..... Remember you have to keep running so avoid hitting obstacles at any cost.";
 }
 
-void GameIntroScreen::drawIntroScreenAndHandleInput(BITMAP* buffer, BITMAP* backgroundBitmap, FONT* headingFont, FONT* textFont) {
+void GameIntroScreen::drawIntroScreenAndHandleInput(BITMAP* buffer, FONT* headingFont, FONT* textFont) {
 
 	rectfill(buffer, 0, 0, SCREEN_W, SCREEN_H, COLOR_BG);
 

@@ -46,7 +46,9 @@ public:
 	 * and also handles mouse click events for the same.
 	 * 
 	 * @param buffer Screen buffer or other buffer where the game intro screen screen has to be drawn.
+	 * @param headingFont Pointer to the font to be used for the heading
+	 * @param textFont Pointer to the font to be used for the text
 	 */
-	void drawIntroScreenAndHandleInput(BITMAP* buffer, BITMAP* backgroundBitmap, FONT* headingFont, FONT* textFont);
+	void drawIntroScreenAndHandleInput(BITMAP* buffer, FONT* headingFont, FONT* textFont);
 };
 

@@ -9,7 +9,7 @@ SettingsMenu::~SettingsMenu() {
 	destroy_bitmap(this->bannerBitmap);
 }
 
-void SettingsMenu::drawSettingsMenuAndHandleInput(BITMAP* buffer, BITMAP* backgroundBitmap, FONT* font) {
+void SettingsMenu::drawSettingsMenuAndHandleInput(BITMAP* buffer,  FONT* font) {
 
 	rectfill(buffer, 0, 0, SCREEN_W, SCREEN_H, COLOR_BG);
 
