@@ -224,10 +224,9 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, BITMAP* bannerBitm
 
 	}
 
- 
+	// wait for the mutex to be available and then lock it
 	std::lock_guard<std::mutex> lk(threadSafeMutex);
-	//cv.wait(lk, cond_func); 
-	//Utility::textout_magnified(buffer, headingFont, 100, 10, 0.5, "SCORE: "+counter_thread, makecol(0, 0, 0), -1);
+	
 	textprintf_centre(buffer, font, 100, 100, makecol(255, 0, 0), "THREAD: %d", counter_thread);
 
 	renderEnemiesAndCheckForHits(buffer);
@@ -272,14 +271,17 @@ void GameScreen::triggerReleases()
 
 	//release enemy depending on the randomly chosen release time
 	if (clock() - lastEnemyReleaseTime > enemyReleaseDelay) {
-		
+		// lock mutex and if cannot lock give up and try again later
 		std::unique_lock<std::mutex> lk(this->threadSafeMutex);
+		// don't do anything until the player is alive and if player is alive proceed
 		this->cv.wait(lk, [this] {return this->isGameRunningAndPlayerAlive(); });
+		// spawn a new enemy
 		this->enemies.push_back(new Enemy((BITMAP*)this->bitmaps_datafile[WIZARD_FLY_BMP].dat, (BITMAP*)this->bitmaps_datafile[FLAME_BMP].dat, (SCREEN_W * 1.3), ENEMY_SPAWN_HEIGHT, 24));
+		// set random delay for next release
 		this->enemyReleaseDelay = std::rand() % (2000) + 2000;
-
+		
 		lastEnemyReleaseTime = clock(); 
-
+		// unlock mutex
 		lk.unlock();
 	}
 

@@ -75,9 +75,22 @@ private:
 
 public:
 
+	/**
+	 * @brief Thread used to spawn the enemies
+	 * 
+	 */
 	std::thread* enemyGeneratorThread;
+	/**
+	 * @brief Mutex used to make the enemy vector thread safe
+	 * 
+	 */
 	std::mutex threadSafeMutex;
+	/**
+	 * @brief Condition variable for the thread
+	 * 
+	 */
 	std::condition_variable cv;
+	/** 
 	bool cond_func();
 	int counter_thread;
 
