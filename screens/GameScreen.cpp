@@ -1,7 +1,6 @@
 #include "GameScreen.h" 
  
  
-// TODO: change trigger condition
 void thread_func(GameScreen* gs) {
 	while (true)
 	{
@@ -227,7 +226,7 @@ void GameScreen::drawGameScreenAndHandleInput(BITMAP* buffer, BITMAP* bannerBitm
 	// wait for the mutex to be available and then lock it
 	std::lock_guard<std::mutex> lk(threadSafeMutex);
 	
-	textprintf_centre(buffer, font, 100, 100, makecol(255, 0, 0), "THREAD: %d", counter_thread);
+	//textprintf_centre(buffer, font, 100, 100, makecol(255, 0, 0), "THREAD: %d", counter_thread);
 
 	renderEnemiesAndCheckForHits(buffer);
 	cv.notify_one();

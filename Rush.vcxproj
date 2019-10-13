@@ -89,6 +89,9 @@
     <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="assets\bitmaps_define.h" />
+    <ClInclude Include="assets\font_defines.h" />
+    <ClInclude Include="assets\sounds_define.h" />
     <ClInclude Include="ConfigManager.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="entities\Enemy.h" />
@@ -109,6 +112,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
+    <None Include="assets\bmps.dat" />
+    <None Include="assets\font-36.pcx" />
+    <None Include="assets\fonts.dat" />
+    <None Include="assets\Main Menu1280_960.psd" />
+    <None Include="assets\map.BAK" />
+    <None Include="assets\map.FMP" />
+    <None Include="assets\map1.BAK" />
+    <None Include="assets\map1.FMP" />
+    <None Include="assets\sounds.dat" />
     <None Include="Rush.cfg" />
   </ItemGroup>
   <ItemGroup>

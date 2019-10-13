@@ -119,10 +119,28 @@
     <ClInclude Include="entities\Enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="assets\bitmaps_define.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\font_defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="assets\sounds_define.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Rush.cfg" />
     <None Include=".gitignore" />
+    <None Include="assets\bmps.dat" />
+    <None Include="assets\font-36.pcx" />
+    <None Include="assets\fonts.dat" />
+    <None Include="assets\Main Menu1280_960.psd" />
+    <None Include="assets\map.BAK" />
+    <None Include="assets\map.FMP" />
+    <None Include="assets\map1.BAK" />
+    <None Include="assets\map1.FMP" />
+    <None Include="assets\sounds.dat" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\sprites\skeleton-walk.bmp">

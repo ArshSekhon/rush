@@ -89,8 +89,8 @@ public:
 	 * @brief Condition variable for the thread
 	 * 
 	 */
-	std::condition_variable cv;
-	/** 
+	std::condition_variable cv; 
+
 	bool cond_func();
 	int counter_thread;
 

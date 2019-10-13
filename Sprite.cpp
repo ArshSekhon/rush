@@ -111,8 +111,8 @@ int Sprite::collided(BITMAP* buffer, int shrinkWidth, int shrinkHeight, Sprite* 
 	int other_x2 = (int)other->xPos + other->w - shrinkOtherWidth;
 	int other_y2 = (int)other->yPos + other->h - shrinkOtherHeight;
 
-	rect(buffer, x1, y1, x2, y2, makecol(255, 0, 0));
-	rect(buffer, other_x1, other_y1, other_x2, other_y2, makecol(0, 255, 0)); 
+	//rect(buffer, x1, y1, x2, y2, makecol(255, 0, 0));
+	//rect(buffer, other_x1, other_y1, other_x2, other_y2, makecol(0, 255, 0)); 
 
 	if (inside(x1, y2, other_x1, other_y1, other_x2, other_y2) ||
 		inside(x1, y2, other_x1, other_y1, other_x2, other_y2) ||
