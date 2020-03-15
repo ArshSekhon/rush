@@ -1,7 +1,7 @@
 # Technical Documentation
 
 ## Introduction
-Rush: Escaping Doom is plaform game(endless runner) based upon Allegro 4.4.2. The project was created using Visual Studio. 
+Rush: Escaping Doom is platform game(endless runner) based upon Allegro 4.4.2. The project was created using Visual Studio. 
 
 The game is really addictive and simple to play. All the player has to do is make the character jump and navigate through the world. During this they also encounter a lot of enemy entities. The player has to ensure that the player character does not collide with any of these enemy entities.
 
